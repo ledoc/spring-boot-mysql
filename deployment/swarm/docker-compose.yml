@@ -1,0 +1,21 @@
+version: "3.3"
+services:
+  mysqldb:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: db_spring_boot_mysql
+    volumes:
+    - mysql-data:/var/lib/mysql
+  api:
+    image: h3rv3/spring_boot_mysql:0.0.1
+    environment:
+      DB_HOST: mysqldb
+      DB_USER: user_spring_boot_mysql
+      DB_PASS: pass_spring_boot_mysql
+    deploy:
+      replicas: 1
+    ports:
+    - 8080:8080
+volumes:
+  mysql-data:

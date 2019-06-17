@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: db-config
+data:
+  mysql-database: db_spring_boot_mysql
+  mysql-user: user_spring_boot_mysql

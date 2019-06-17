@@ -1,0 +1,23 @@
+version: "3.3"
+
+services:
+  mysql_db:
+    image: mysql:5.7
+    environment:
+      - MYSQL_USER=user-spring-boot-mysql
+      - MYSQL_PASSWORD=pass-spring-boot-mysql
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=db-spring-boot-mysql
+    ports:
+      - '3306:3306'
+    volumes:
+      - mysql-data:/var/lib/mysql
+  java:
+    image: h3rv3/spring-boot-mysql:latest
+    ports:
+      - '8080:8080'
+    environment:
+      WAIT_HOSTS: mysql_db:3306
+volumes:
+  mysql-data:
+  
