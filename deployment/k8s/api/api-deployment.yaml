@@ -1,33 +1,38 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: api-deployment
+  name: spring-api
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: api
   template:
     metadata:
       labels:
         app: api
     spec:
       containers:
-      - image: h3rv3/springboot.rest:1.0.0
-        imagePullPolicy: Always
-        name: springboot-rest
-        env:
-        - name: DB_NAME
-          valueFrom:
-            configMapKeyRef:
-              name: db-config
-              key: mysql-database
-        - name: DB_USER
-          valueFrom:
-            configMapKeyRef:
-              name: db-config
-              key: mysql-user
-        - name: DB_PASS
-          valueFrom:
-            secretKeyRef:
-              name: db-credentials
-              key: mysql-password
-        - name: DB_URL
-          value: mysql-service
+        - name: spring-api
+          image: h3rv3/spring-boot-mysql:0.0.1
+          imagePullPolicy: Always
+          env:
+          - name: DB_NAME
+            valueFrom:
+              configMapKeyRef:
+                name: db-config
+                key: mysql-database
+          - name: DB_USER
+            valueFrom:
+              configMapKeyRef:
+                name: db-config
+                key: mysql-user
+          - name: DB_PASS
+            valueFrom:
+              secretKeyRef:
+                name: db-credentials
+                key: mysql-password
+          - name: DB_URL
+            value: mysql-service
+      imagePullSecrets:
+        - name: docker-hub
